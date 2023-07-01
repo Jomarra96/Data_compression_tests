@@ -1,1 +1,1 @@
-#include "compression_common.h"
+#include "huffman_encoding.h"
