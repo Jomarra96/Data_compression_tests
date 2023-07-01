@@ -17,7 +17,7 @@ void populate_page_with_random_data(uint8_t *mem_page){
         	mem_page[i*5 + 4] = rand() % 254;
         
 		// Increment timestamp by a minute
-		timestamp += SECONDS_IN_A_MINUTE;
+		timestamp += TS_INCREMENT_SEC;
 
 #if DEBUG_OUTPUT == 1
 		reconstructed_ts = mem_page[i*5]<<24 | mem_page[i*5 + 1]<<16 | mem_page[i*5 + 2]<<8 | mem_page[i*5 + 3];
