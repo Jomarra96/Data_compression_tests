@@ -1,6 +1,7 @@
 #include "delta_encoding.h"
 
-uint8_t delta_encode(uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *encoded_size) {
+uint8_t delta_encode(const uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *encoded_size)
+{
 	uint16_t encoded_index = 0;
 	uint8_t status = 0;
 
@@ -21,7 +22,8 @@ uint8_t delta_encode(uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *e
 	return status;
 }
 
-uint8_t delta_decode(uint8_t *decoded_data, uint8_t *delta_encoded_data, uint16_t encoded_size) {
+uint8_t delta_decode(uint8_t *decoded_data, const uint8_t *delta_encoded_data, const uint16_t encoded_size)
+{
     uint16_t decoded_index = 0;
     uint8_t status = 0;
 

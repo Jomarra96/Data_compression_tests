@@ -17,7 +17,7 @@ However, delta encoding can make the data more compressible by reducing the rang
 which can be beneficial if you apply a compression algorithm after delta encoding. 
 */
 
-uint8_t delta_encode(uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *encoded_size);
-uint8_t delta_decode(uint8_t *decoded_data, uint8_t *delta_encoded_data, uint16_t encoded_size);
+uint8_t delta_encode(const uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *encoded_size);
+uint8_t delta_decode(uint8_t *decoded_data, const uint8_t *delta_encoded_data, const uint16_t encoded_size);
 
 #endif // DELTA_ENCODING_H
