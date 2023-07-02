@@ -28,7 +28,7 @@ void test_randomly_generated_page_data() {
 
         // Check timestamp is incrementing by a minute
         if (i > 0) {
-            TEST_ASSERT_EQUAL(timestamp - previous_timestamp, TS_INCREMENT_SEC);
+            TEST_ASSERT_EQUAL(TS_INCREMENT_SEC, timestamp - previous_timestamp);
         }
 
         previous_timestamp = timestamp;
@@ -49,10 +49,10 @@ void test_run_length_encoding() {
     populate_page_with_random_data(mem_page);
     
     status = run_length_encode(mem_page, delta_encoded_data, &encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 
     status = run_length_decode(raw_data, delta_encoded_data, encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 
     /* Could make [PAGE_SIZE] asserts here, but unnecessary */
     for (uint16_t i = 0; i < PAGE_SIZE; i++) {
@@ -62,7 +62,7 @@ void test_run_length_encoding() {
         }
     }
 
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 }
 
 void delta_encoding() {
@@ -76,10 +76,10 @@ void delta_encoding() {
     populate_page_with_random_data(mem_page);
     
     status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 
     status = delta_decode(raw_data, delta_encoded_data, encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 
     /* Could make [PAGE_SIZE] asserts here, but unnecessary */
     for (uint16_t i = 0; i < PAGE_SIZE; i++) {
@@ -89,8 +89,7 @@ void delta_encoding() {
         }
     }
 
-    //TODO: invert test input
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
 }
 
 int main() {

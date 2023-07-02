@@ -17,7 +17,6 @@ int main(void)
 	status = run_length_decode(raw_data, run_time_encoded_data, encoded_size);
 	printf("Status: %d. Decoded.\r\n", status);
 #endif
-	//TODO: add constant guards to input array
 	status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
 	printf("Status: %d. Encoded size: %d\r\n", status, encoded_size);
 	status = delta_decode(raw_data, delta_encoded_data, encoded_size);
