@@ -1,11 +1,16 @@
 #include "random_data_generator.h"
 
 /* Follow the provided structure: 4B ts, 1B data */
-void populate_page_with_random_data(uint8_t *mem_page){
+uint8_t populate_page_with_random_data(uint8_t *mem_page){
 	
 	uint32_t timestamp = INITIAL_EPOCH;
 	uint32_t reconstructed_ts = 0;
     	int j = 0;
+
+	if( mem_page == NULL)
+	{
+		return ERR_NULL_PTR;
+	}
 
 	for (int i = 0; i < DATAPOINTS; i++) {
         	// Store timestamp with MSB first
@@ -24,5 +29,5 @@ void populate_page_with_random_data(uint8_t *mem_page){
 		printf("datapoint %d = [%d, %d]\r\n", i, reconstructed_ts, mem_page[i*5 + 4]);
 #endif
 	}	
-
+	return 0;
 }

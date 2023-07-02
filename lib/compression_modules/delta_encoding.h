@@ -9,6 +9,7 @@
 #define ERR_DELTA_ENCODE_OVERFLOW 2
 #define ERR_DELTA_DECODE_OVERFLOW 3
 #define ERR_DELTA_TEST_FAILED 4
+#define ERR_DELTA_NULL_PTR 5
 
 /*
 Note that delta encoding is not a form of compression.

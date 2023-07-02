@@ -16,9 +16,10 @@ int main(void)
 	printf("Status: %d. Encoded size: %d\r\n", status, encoded_size);
 	status = run_length_decode(raw_data, run_time_encoded_data, encoded_size);
 	printf("Status: %d. Decoded.\r\n", status);
-#endif
+
 	status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
 	printf("Status: %d. Encoded size: %d\r\n", status, encoded_size);
 	status = delta_decode(raw_data, delta_encoded_data, encoded_size);
 	printf("Status: %d. Decoded.\r\n", status);
+#endif
 }
