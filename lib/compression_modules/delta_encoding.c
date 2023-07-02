@@ -2,6 +2,10 @@
 
 uint8_t delta_encode(const uint8_t *raw_data, uint8_t *delta_encoded_data, uint16_t *encoded_size)
 {
+	if(raw_data == NULL || delta_encoded_data == NULL || encoded_size == NULL){
+		return ERR_DELTA_NULL_PTR;
+	}
+	
 	uint16_t encoded_index = 0;
 	uint8_t status = 0;
 

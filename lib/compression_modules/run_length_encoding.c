@@ -2,7 +2,11 @@
 
 uint8_t run_length_encode(const uint8_t *raw_data, uint8_t *run_time_encoded_data, uint16_t *encoded_size)
 {
-	uint8_t current_byte = raw_data[0];
+	if((raw_data == NULL) || (run_time_encoded_data == NULL) || (encoded_size == NULL)){
+		return ERR_RUN_LENGTH_NULL_PTR;
+	}
+	
+	int8_t current_byte = raw_data[0];
 	uint8_t run_length = 1;
 	uint16_t encoded_index = 0;
 	uint8_t status = 0;

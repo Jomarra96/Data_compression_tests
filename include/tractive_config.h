@@ -5,16 +5,17 @@
 #define DATAPOINT_ELEMENTS 5 //For given structure
 #define DATAPOINTS PAGE_SIZE/DATAPOINT_ELEMENTS
 
-#define DEBUG_OUTPUT 0
+#define DEBUG_OUTPUT 1
 
-// Common defs
+/* Common defs */
 #define TS_INCREMENT_SEC 60
 
-
+/* Structure restriction */
 #if (PAGE_SIZE%5 != 0)
 	#error PAGE_SIZE must be divisible by 5.
 #endif
 
+/* uint16_t restriction */
 #if (PAGE_SIZE >= 32768)
 	#error PAGE_SIZE must be lower than 32768.
 #endif

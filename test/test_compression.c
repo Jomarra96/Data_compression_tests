@@ -10,14 +10,26 @@ void setUp(void) {
 void tearDown(void) {
 }
 
-void test_randomly_generated_page_data() {
+void test_invalid_input_randomly_generated_page_data() 
+{
+    uint8_t *mem_page = NULL;
+    uint8_t status = 0;
+
+    status = populate_page_with_random_data(mem_page);
+    TEST_ASSERT_EQUAL(RDG_ERR_NULL_PTR, status);
+}
+
+void test_randomly_generated_page_data() 
+{
     
     uint8_t mem_page[PAGE_SIZE] = {0};
     uint32_t previous_timestamp = 0;
     uint32_t timestamp = 0;
+    uint8_t status = 0;
 	
-    populate_page_with_random_data(mem_page);
-    
+    status = populate_page_with_random_data(mem_page);
+    TEST_ASSERT_EQUAL(0, status);
+
     for (int i = 0; i < DATAPOINTS; i++) {
         
         // Retrieve timestamp
@@ -38,7 +50,19 @@ void test_randomly_generated_page_data() {
     }
 }
 
-void test_run_length_encoding() {
+void test_invalid_input_run_length_encoding() 
+{
+    uint8_t *mem_page = NULL;
+    uint8_t *delta_encoded_data = NULL;
+    uint16_t *encoded_size = NULL;
+    uint8_t status = 0;
+
+    status = run_length_encode(mem_page, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(ERR_RUN_LENGTH_NULL_PTR, status);
+}
+
+void test_run_length_encoding() 
+{
     
     uint16_t encoded_size = 0;
     uint8_t mem_page[PAGE_SIZE] = {0};
@@ -54,26 +78,40 @@ void test_run_length_encoding() {
     status = run_length_decode(raw_data, delta_encoded_data, encoded_size);
     TEST_ASSERT_EQUAL(0, status);
 
-    /* Could make [PAGE_SIZE] asserts here, but unnecessary */
+    /* Could make [PAGE_SIZE] asserts here, albeit unnecessary */
     for (uint16_t i = 0; i < PAGE_SIZE; i++) {
         if(mem_page[i] != raw_data[i])
         {
-            status = RLE_TEST_FAILED;
+            status = ERR_RLE_TEST_FAILED;
         }
     }
 
     TEST_ASSERT_EQUAL(0, status);
 }
 
-void delta_encoding() {
+void test_invalid_input_delta_encoding() 
+{
+    uint8_t *mem_page = NULL;
+    uint8_t *delta_encoded_data = NULL;
+    uint16_t *encoded_size = NULL;
+    uint8_t status = 0;
+
+    status = delta_encode(mem_page, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(ERR_DELTA_NULL_PTR, status);
+}
+
+void delta_encoding() 
+{
     
     uint16_t encoded_size = 0;
     uint8_t mem_page[PAGE_SIZE] = {0};
+    uint8_t *null_mem_page = NULL;
     uint8_t delta_encoded_data[PAGE_SIZE]; // Worst case scenario
     uint8_t raw_data[PAGE_SIZE] = {0};
     uint8_t status = 0;
 	
-    populate_page_with_random_data(mem_page);
+    populate_page_with_random_data(null_mem_page);
+    
     
     status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
     TEST_ASSERT_EQUAL(0, status);
@@ -92,12 +130,18 @@ void delta_encoding() {
     TEST_ASSERT_EQUAL(0, status);
 }
 
-int main() {
+int main() 
+{
     
     UNITY_BEGIN();
     
+    RUN_TEST(test_invalid_input_randomly_generated_page_data);
     RUN_TEST(test_randomly_generated_page_data);
+    
+    RUN_TEST(test_invalid_input_run_length_encoding);
     RUN_TEST(test_run_length_encoding);
+
+    RUN_TEST(test_invalid_input_delta_encoding);
     RUN_TEST(delta_encoding);
 
     UNITY_END();
