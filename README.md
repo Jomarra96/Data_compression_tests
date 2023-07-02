@@ -22,8 +22,7 @@ Please prepare the following:
 ● Study the case
 ● Investigate an idea to compress the data before sending.
 ● Also think about edge cases and possible problems.
-● You should present your idea/solution and be prepared to get challenged in the
-interview.
+● You should present your idea/solution and be prepared to get challenged in the interview.
 ● After the architecture is defined, please also create the necessary file structure and
 provide some high level code (methods/functions).
 
@@ -35,10 +34,11 @@ provide some high level code (methods/functions).
 	1.3. Huffman Encoding (HE)
 
 2. Once introduced, we will create the file structure. It will consist on:
-	2.1. Random data generator module.
-	2.2. One module for every compression technique.
-	2.3. Comparator module to address the compression rate of every technique.
+	2.1. Random data generator module
+	2.2. RLE module
+	2.3. ΔE module
+	2.4. Test module
 	
-3. The development will be done using PlatformIO IDE, running on GCC for WinOS (MinGW).
+3. The development will be done using PlatformIO IDE, running on GCC for WinOS (MinGW), although it can easily be ported to arm-gcc to run on target if needed.
 
 4. Finally, we will dive into how modifying the initial given frame structure could result in higher data density.
