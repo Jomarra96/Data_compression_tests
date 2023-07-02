@@ -10,13 +10,13 @@ void setUp(void) {
 void tearDown(void) {
 }
 
-void test_null_input_randomly_generated_page_data() 
+void test_invalid_input_randomly_generated_page_data() 
 {
     uint8_t *mem_page = NULL;
     uint8_t status = 0;
 
     status = populate_page_with_random_data(mem_page);
-    TEST_ASSERT_EQUAL(ERR_NULL_PTR, status);
+    TEST_ASSERT_EQUAL(RDG_ERR_NULL_PTR, status);
 }
 
 void test_randomly_generated_page_data() 
@@ -50,6 +50,17 @@ void test_randomly_generated_page_data()
     }
 }
 
+void test_invalid_input_run_length_encoding() 
+{
+    uint8_t *mem_page = NULL;
+    uint8_t *delta_encoded_data = NULL;
+    uint16_t *encoded_size = NULL;
+    uint8_t status = 0;
+
+    status = run_length_encode(mem_page, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(ERR_RUN_LENGTH_NULL_PTR, status);
+}
+
 void test_run_length_encoding() 
 {
     
@@ -67,15 +78,26 @@ void test_run_length_encoding()
     status = run_length_decode(raw_data, delta_encoded_data, encoded_size);
     TEST_ASSERT_EQUAL(0, status);
 
-    /* Could make [PAGE_SIZE] asserts here, but unnecessary */
+    /* Could make [PAGE_SIZE] asserts here, albeit unnecessary */
     for (uint16_t i = 0; i < PAGE_SIZE; i++) {
         if(mem_page[i] != raw_data[i])
         {
-            status = RLE_TEST_FAILED;
+            status = ERR_RLE_TEST_FAILED;
         }
     }
 
     TEST_ASSERT_EQUAL(0, status);
+}
+
+void test_invalid_input_delta_encoding() 
+{
+    uint8_t *mem_page = NULL;
+    uint8_t *delta_encoded_data = NULL;
+    uint16_t *encoded_size = NULL;
+    uint8_t status = 0;
+
+    status = delta_encode(mem_page, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(ERR_DELTA_NULL_PTR, status);
 }
 
 void delta_encoding() 
@@ -113,9 +135,13 @@ int main()
     
     UNITY_BEGIN();
     
-    RUN_TEST(test_null_input_randomly_generated_page_data);
+    RUN_TEST(test_invalid_input_randomly_generated_page_data);
     RUN_TEST(test_randomly_generated_page_data);
+    
+    RUN_TEST(test_invalid_input_run_length_encoding);
     RUN_TEST(test_run_length_encoding);
+
+    RUN_TEST(test_invalid_input_delta_encoding);
     RUN_TEST(delta_encoding);
 
     UNITY_END();

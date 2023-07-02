@@ -2,6 +2,7 @@
 #define DELTA_ENCODING_H
 
 #include "stdint.h"
+#include "stdlib.h"
 #include "tractive_config.h"
 
 #define MAX_DELTA 255

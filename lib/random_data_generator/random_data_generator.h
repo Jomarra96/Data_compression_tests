@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "tractive_config.h"
 
-#define ERR_NULL_PTR 1
+#define RDG_ERR_NULL_PTR 1
 
 #define INITIAL_EPOCH 1688141413 //copypasted from https://www.epochconverter.com/
 

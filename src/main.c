@@ -11,7 +11,7 @@ int main(void)
 
 	populate_page_with_random_data(mem_page);
 
-#if 0
+#if DEBUG_OUTPUT
 	status = run_length_encode(mem_page, run_time_encoded_data, &encoded_size);
 	printf("Status: %d. Encoded size: %d\r\n", status, encoded_size);
 	status = run_length_decode(raw_data, run_time_encoded_data, encoded_size);

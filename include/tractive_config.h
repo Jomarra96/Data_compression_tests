@@ -5,7 +5,7 @@
 #define DATAPOINT_ELEMENTS 5 //For given structure
 #define DATAPOINTS PAGE_SIZE/DATAPOINT_ELEMENTS
 
-#define DEBUG_OUTPUT 0
+#define DEBUG_OUTPUT 1
 
 /* Common defs */
 #define TS_INCREMENT_SEC 60
