@@ -2,6 +2,7 @@
 #include "tractive_config.h"
 #include "random_data_generator.h"
 #include "run_length_encoding.h"
+#include "delta_encoding.h"
 
 void setUp(void) {
 }
@@ -27,7 +28,7 @@ void test_randomly_generated_page_data() {
 
         // Check timestamp is incrementing by a minute
         if (i > 0) {
-            TEST_ASSERT_EQUAL(timestamp - previous_timestamp, TS_INCREMENT_SEC);
+            TEST_ASSERT_EQUAL(TS_INCREMENT_SEC, timestamp - previous_timestamp);
         }
 
         previous_timestamp = timestamp;
@@ -41,17 +42,17 @@ void test_run_length_encoding() {
     
     uint16_t encoded_size = 0;
     uint8_t mem_page[PAGE_SIZE] = {0};
-    uint8_t run_time_encoded_data[PAGE_SIZE * 2]; // Worst case scenario
+    uint8_t delta_encoded_data[PAGE_SIZE * 2]; // Worst case scenario
     uint8_t raw_data[PAGE_SIZE] = {0};
     uint8_t status = 0;
 	
     populate_page_with_random_data(mem_page);
     
-    status = run_length_encode(mem_page, run_time_encoded_data, &encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    status = run_length_encode(mem_page, delta_encoded_data, &encoded_size);
+    TEST_ASSERT_EQUAL(0, status);
 
-    status = run_length_decode(raw_data, run_time_encoded_data, encoded_size);
-    TEST_ASSERT_EQUAL(status, 0);
+    status = run_length_decode(raw_data, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(0, status);
 
     /* Could make [PAGE_SIZE] asserts here, but unnecessary */
     for (uint16_t i = 0; i < PAGE_SIZE; i++) {
@@ -61,7 +62,34 @@ void test_run_length_encoding() {
         }
     }
 
-    TEST_ASSERT_EQUAL(status, 0);
+    TEST_ASSERT_EQUAL(0, status);
+}
+
+void delta_encoding() {
+    
+    uint16_t encoded_size = 0;
+    uint8_t mem_page[PAGE_SIZE] = {0};
+    uint8_t delta_encoded_data[PAGE_SIZE]; // Worst case scenario
+    uint8_t raw_data[PAGE_SIZE] = {0};
+    uint8_t status = 0;
+	
+    populate_page_with_random_data(mem_page);
+    
+    status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
+    TEST_ASSERT_EQUAL(0, status);
+
+    status = delta_decode(raw_data, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(0, status);
+
+    /* Could make [PAGE_SIZE] asserts here, but unnecessary */
+    for (uint16_t i = 0; i < PAGE_SIZE; i++) {
+        if(mem_page[i] != raw_data[i])
+        {
+            status = ERR_DELTA_TEST_FAILED;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(0, status);
 }
 
 int main() {
@@ -70,6 +98,7 @@ int main() {
     
     RUN_TEST(test_randomly_generated_page_data);
     RUN_TEST(test_run_length_encoding);
+    RUN_TEST(delta_encoding);
 
     UNITY_END();
 }
