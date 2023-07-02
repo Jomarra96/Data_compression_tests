@@ -100,7 +100,7 @@ void test_invalid_input_delta_encoding()
     TEST_ASSERT_EQUAL(ERR_DELTA_NULL_PTR, status);
 }
 
-void delta_encoding() 
+void test_delta_encoding() 
 {
     
     uint16_t encoded_size = 0;
@@ -142,7 +142,7 @@ int main()
     RUN_TEST(test_run_length_encoding);
 
     RUN_TEST(test_invalid_input_delta_encoding);
-    RUN_TEST(delta_encoding);
+    RUN_TEST(test_delta_encoding);
 
     UNITY_END();
 }
