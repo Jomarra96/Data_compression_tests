@@ -2,6 +2,7 @@
 #include "tractive_config.h"
 #include "random_data_generator.h"
 #include "run_length_encoding.h"
+#include "delta_encoding.h"
 
 void setUp(void) {
 }
@@ -41,16 +42,16 @@ void test_run_length_encoding() {
     
     uint16_t encoded_size = 0;
     uint8_t mem_page[PAGE_SIZE] = {0};
-    uint8_t run_time_encoded_data[PAGE_SIZE * 2]; // Worst case scenario
+    uint8_t delta_encoded_data[PAGE_SIZE * 2]; // Worst case scenario
     uint8_t raw_data[PAGE_SIZE] = {0};
     uint8_t status = 0;
 	
     populate_page_with_random_data(mem_page);
     
-    status = run_length_encode(mem_page, run_time_encoded_data, &encoded_size);
+    status = run_length_encode(mem_page, delta_encoded_data, &encoded_size);
     TEST_ASSERT_EQUAL(status, 0);
 
-    status = run_length_decode(raw_data, run_time_encoded_data, encoded_size);
+    status = run_length_decode(raw_data, delta_encoded_data, encoded_size);
     TEST_ASSERT_EQUAL(status, 0);
 
     /* Could make [PAGE_SIZE] asserts here, but unnecessary */
@@ -64,12 +65,41 @@ void test_run_length_encoding() {
     TEST_ASSERT_EQUAL(status, 0);
 }
 
+void delta_encoding() {
+    
+    uint16_t encoded_size = 0;
+    uint8_t mem_page[PAGE_SIZE] = {0};
+    uint8_t delta_encoded_data[PAGE_SIZE]; // Worst case scenario
+    uint8_t raw_data[PAGE_SIZE] = {0};
+    uint8_t status = 0;
+	
+    populate_page_with_random_data(mem_page);
+    
+    status = delta_encode(mem_page, delta_encoded_data, &encoded_size);
+    TEST_ASSERT_EQUAL(status, 0);
+
+    status = delta_decode(raw_data, delta_encoded_data, encoded_size);
+    TEST_ASSERT_EQUAL(status, 0);
+
+    /* Could make [PAGE_SIZE] asserts here, but unnecessary */
+    for (uint16_t i = 0; i < PAGE_SIZE; i++) {
+        if(mem_page[i] != raw_data[i])
+        {
+            status = ERR_DELTA_TEST_FAILED;
+        }
+    }
+
+    //TODO: invert test input
+    TEST_ASSERT_EQUAL(status, 0);
+}
+
 int main() {
     
     UNITY_BEGIN();
     
     RUN_TEST(test_randomly_generated_page_data);
     RUN_TEST(test_run_length_encoding);
+    RUN_TEST(delta_encoding);
 
     UNITY_END();
 }
