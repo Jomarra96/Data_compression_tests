@@ -1,8 +1,5 @@
-# Tractive_compression
-FW assignment from tractive
-
-# Firmware Assignment
-* Our device stores activity data of the user’s pet which is an average acceleration over the last minute. The values ranges from 0-254.
+# Firmware
+* Device stores activity data of the user’s pet which is an average acceleration over the last minute. The values ranges from 0-254.
 
 * The maximum size of stored records in the flash is 50400 bytes.
 This data is stored on the device and uploaded on demand to our server so we can visualize it
